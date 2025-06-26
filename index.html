@@ -2,47 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Stonly PWA</title>
+  <title>AppFlowy PWA</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0d89ff">
-  <link rel="manifest" href="./manifest.json">
-  <link rel="icon" href="./icons/icon-192.png">
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
   <style>
-    html,body{margin:0;height:100%}
-    #guide{min-height:100vh;display:flex;align-items:center;justify-content:center;font:16px/1.4 sans-serif;color:#666}
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+    iframe {
+      border: none;
+      width: 100%;
+      height: 100%;
+    }
   </style>
 </head>
 <body>
-  <div id="guide">Loading guide…</div>
+  <iframe src="https://appflowy.com/app/c6f633d6-d762-418d-8d28-dc3f38dda0b7/4270c637-aaf9-404c-9410-7086543059fd" title="AppFlowy Workspace" allowfullscreen></iframe>
 
   <script>
-    /* inject widget.js, then initialise the guide */
-    (function init() {
-      function mount(tries = 0) {
-        if (window.StonlyWidget?.init) {
-          StonlyWidget.init({
-            guideId: 289783,          // ← your guide
-            target: '#guide',
-            mode: 'inline'
-          });
-        } else if (tries < 40) {
-          setTimeout(() => mount(tries + 1), 50);
-        } else {
-          document.getElementById('guide').textContent =
-            'Failed to load the guide – check console.';
-        }
-      }
-      const s = document.createElement('script');
-      s.src = 'https://stonly.com/js/widget.js';
-      s.async = true;
-      s.onload = () => mount();
-      document.head.appendChild(s);
-    })();
-
-    /* PWA requirement */
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./service-worker.js');
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => console.log('Service worker registered:', reg.scope))
+        .catch(err => console.error('Service worker registration failed:', err));
     }
   </script>
 </body>
