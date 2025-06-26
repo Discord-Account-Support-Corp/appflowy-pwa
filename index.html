@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AppFlowy PWA</title>
+
+  <!-- PWA bits -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2B2B2B">
+
+  <style>
+    html,body,#shell{height:100%;margin:0}
+    iframe{border:0;width:100%;height:100%}
+  </style>
+</head>
+<body>
+  <!-- Keeps scope on *your* origin so SW & manifest stay active -->
+  <div id="shell">
+    <iframe src="https://appflowy.com/app/c6f633d6-d762-418d-8d28-dc3f38dda0b7/4270c637-aaf9-404c-9410-7086543059fd" allow="clipboard-read; clipboard-write"></iframe>
+  </div>
+
+  <script>
+    // Register the service worker
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js")
+        .catch(console.error);
+    }
+  </script>
+</body>
+</html>
