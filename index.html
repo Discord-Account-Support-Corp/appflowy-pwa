@@ -1,81 +1,51 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AppFlowy PWA</title>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0d89ff">
-
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icons/icon-192.png" type="image/png">
-
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0d89ff" />
+  <link rel="icon" href="icons/icon-192.png" />
   <style>
     html, body {
       margin: 0;
-      padding: 0;
       height: 100%;
       font-family: sans-serif;
-      background: #f9f9f9;
-      color: #333;
     }
     #fallback {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
       text-align: center;
+      padding: 2em;
+      color: #333;
     }
     iframe {
-      border: none;
       width: 100%;
       height: 100%;
-      display: none;
+      border: none;
+      display: block;
     }
   </style>
 </head>
 <body>
+  <div id="fallback">Loading AppFlowy workspace...</div>
 
-  <div id="fallback">
-    <p>Loading your AppFlowy workspace...</p>
-    <p>
-      If you are not redirected, <br>
-      <a href="https://appflowy.com/app/c6f633d6-d762-418d-8d28-dc3f38dda0b7/4270c637-aaf9-404c-9410-7086543059fd" target="_blank">
-        click here to open it manually
-      </a>.
-    </p>
-  </div>
-
-  <iframe
-    id="appflowy"
-    src="https://appflowy.com/app/c6f633d6-d762-418d-8d28-dc3f38dda0b7/4270c637-aaf9-404c-9410-7086543059fd"
-    allowfullscreen
-    loading="lazy"
-  ></iframe>
+  <iframe id="app" src="https://appflowy.com/app/c6f633d6-d762-418d-8d28-dc3f38dda0b7/4270c637-aaf9-404c-9410-7086543059fd" loading="lazy"></iframe>
 
   <script>
-    // Wait a short moment, then show the iframe (if it's allowed)
-    window.addEventListener('load', () => {
-      const iframe = document.getElementById('appflowy');
-      iframe.onload = () => {
-        document.getElementById('fallback').style.display = 'none';
-        iframe.style.display = 'block';
-      };
-      // Trigger load in case iframe.onload doesn't fire (some browsers)
-      setTimeout(() => {
-        iframe.style.display = 'block';
-        document.getElementById('fallback').style.display = 'none';
-      }, 3000);
-    });
+    const iframe = document.getElementById("app");
+    iframe.onload = () => {
+      document.getElementById("fallback").style.display = "none";
+    };
 
-    // PWA service worker
+    // Redirect to add trailing slash if missing
+    if (!location.pathname.endsWith('/')) {
+      location.replace(location.pathname + '/' + location.search + location.hash);
+    }
+
+    // Register service worker
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(reg => console.log('SW registered:', reg.scope))
-        .catch(err => console.error('SW registration failed:', err));
+      navigator.serviceWorker.register('service-worker.js', { scope: './' });
     }
   </script>
-
 </body>
 </html>
