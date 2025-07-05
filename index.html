@@ -12,11 +12,7 @@
       margin: 0;
       height: 100%;
       font-family: sans-serif;
-    }
-    #fallback {
-      text-align: center;
-      padding: 2em;
-      color: #333;
+      background: #f4f4f4;
     }
     iframe {
       width: 100%;
@@ -24,20 +20,41 @@
       border: none;
       display: block;
     }
+    #fallback {
+      display: none;
+      padding: 2em;
+      text-align: center;
+      color: #333;
+    }
+    #fallback a {
+      color: #0d89ff;
+      text-decoration: none;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
-  <div id="fallback">Loading AppFlowy workspace...</div>
 
-  <iframe id="app" src="https://appflowy.com/app/c6f633d6-d762-418d-8d28-dc3f38dda0b7/4270c637-aaf9-404c-9410-7086543059fd" loading="lazy"></iframe>
+  <iframe
+    id="app"
+    src="https://appflowy.com/app/c6f633d6-d762-418d-8d28-dc3f38dda0b7/4270c637-aaf9-404c-9410-7086543059fd"
+    loading="lazy"
+    onerror="onFrameError()"
+  ></iframe>
+
+  <div id="fallback">
+    <h2>⚠️ Google Sign-In or access blocked in PWA</h2>
+    <p>This app needs Google Sign-In, which doesn't work in PWA mode or iframes.</p>
+    <p><a href="https://appflowy.com/app/c6f633d6-d762-418d-8d28-dc3f38dda0b7/4270c637-aaf9-404c-9410-7086543059fd" target="_blank">👉 Open AppFlowy in browser</a></p>
+  </div>
 
   <script>
-    const iframe = document.getElementById("app");
-    iframe.onload = () => {
-      document.getElementById("fallback").style.display = "none";
-    };
+    function onFrameError() {
+      document.getElementById('app').style.display = 'none';
+      document.getElementById('fallback').style.display = 'block';
+    }
 
-    // Redirect to add trailing slash if missing
+    // Optional: redirect if no trailing slash
     if (!location.pathname.endsWith('/')) {
       location.replace(location.pathname + '/' + location.search + location.hash);
     }
