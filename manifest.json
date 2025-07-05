@@ -1,13 +1,21 @@
 {
   "name": "My AppFlowy Workspace",
   "short_name": "AppFlowy",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "/appflowy-pwa/",
+  "scope": "/appflowy-pwa/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#2B2B2B",
+  "theme_color": "#0d89ff",
   "icons": [
-    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
   ]
 }
